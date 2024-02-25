@@ -2,14 +2,14 @@ const {Router} = require('express');
 const { v4: uuidv4 } = require('uuid');
 
 
-const router =  Router()
+const merchantsRoute =  Router()
 const  merchants = []
 // Create a new merchant
-router.post('/', async (req, res) => {
+merchantsRoute.post('/', async (req, res) => {
     try{
         const data = req.body;
         const merchant = {
-            merchantId: uuidv4(), // Generate a unique merchant ID
+            id: uuidv4(), // Generate a unique merchant ID
             name: data.name,
             email: data.email
         };
@@ -28,4 +28,4 @@ router.post('/', async (req, res) => {
     
 });
 
-module.exports = router
+module.exports = { merchantsRoute, merchants }
