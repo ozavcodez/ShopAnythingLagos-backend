@@ -34,5 +34,5 @@ Akande Ozavize(ozavcodez)
 # Api Documentation
 https://documenter.getpostman.com/view/24482618/2sA2rDvKwC
 
-
+# Erd design
 ![SLA ERD](https://github.com/ozavcodez/ShopAnythingLagos-backend/blob/main/src/images/sla-erd.png?raw=true)
