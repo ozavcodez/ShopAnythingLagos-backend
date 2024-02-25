@@ -32,4 +32,7 @@ The server will start running at http://localhost:3005.
 Akande Ozavize(ozavcodez)
 
 # Api Documentation
-*https://documenter.getpostman.com/view/24482618/2sA2rDvKwC*
+https://documenter.getpostman.com/view/24482618/2sA2rDvKwC
+
+
+![SLA ERD](https://github.com/ozavcodez/ShopAnythingLagos-backend/blob/main/src/images/sla-erd.png?raw=true)
