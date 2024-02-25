@@ -8,9 +8,21 @@ const {merchants} = require('./merchants.routes')
 const router = Router()
 const products = []
 
-router.get("/:merchantId", (req, res) => {
-    const merchantProducts = products.filter(product => product.merchantId === req.params.merchantId);
-    res.send(merchantProducts);
+router.get("/", (req, res) => {
+    const ismerchantId = merchants.every(merchant => merchant.id === req.query.merchantId )
+    if (!ismerchantId) {
+        return res.status(401).send(
+            {
+                status: 'Failed',
+                message: 'not authorized'
+            });
+    }
+    const merchantProducts = products.filter(product => product.merchantId === req.query.merchantId);
+    res.status(200).send({
+        status: "success",
+        message: "Products fetched succesfully",
+        data: merchantProducts
+    });
 })
 
 router.post('/', async (req, res) => {
@@ -18,9 +30,17 @@ router.post('/', async (req, res) => {
     try {
         const data = req.body;
         console.log(data)
-        const isSkuIdUnique = products.every(product => product.skuId !== data.skuId);
-        const ismerchantId = merchants.every(merchant => merchant.id === data.merchantId )
+        const ismerchantId = merchants.every(merchant => merchant.id === data.merchantId );
 
+        if (!ismerchantId) {
+            return res.status(401).send(
+                {
+                    status: 'Failed',
+                    message: 'not authorized'
+                });
+        }
+
+        const isSkuIdUnique = products.every(product => product.skuId !== data.skuId);
         if (!isSkuIdUnique) {
             return res.status(400).send(
                 {
@@ -28,13 +48,7 @@ router.post('/', async (req, res) => {
                     message: 'SKU ID must be unique'
                 });
         }
-        if (!ismerchantId) {
-            return res.status(400).send(
-                {
-                    status: 'Failed',
-                    message: 'not authorized'
-                });
-        }
+        
         const product = {
             merchantId: data.merchantId,
             skuId: data.skuId,
@@ -61,26 +75,26 @@ router.post('/', async (req, res) => {
 
 });
 // Edit an existing product
-router.put('/:skuId', async (req, res) => {
+router.put('/:id', async (req, res) => {
     try {
-        const skuId = req.params.skuId;
+        const id = req.params.id;
         const data = req.body;
 
-        const index = products.findIndex(product => product.skuId === skuId);
+        const index = products.findIndex(product => product.id === id);
         if (index !== -1) {
             products[index].name = data.name || products[index].name;
             products[index].description = data.description || products[index].description;
             products[index].price = data.price || products[index].price;
-            res.json({ status: "success", message: 'Product updated successfully' });
+            res.json({ status: "Success", message: 'Product updated successfully' });
         } else {
-            res.status(404).send({ status: "error", message: 'Products not found' });
+            res.status(404).send({ status: "Failed", message: 'Product not found' });
 
         }
     } catch (err) {
         console.log(err)
-        res.status(404).send({
-            status: "error",
-            message: "Product not found",
+        res.status(500).send({
+            status: "Failed",
+            message: "server error",
             data: null
         })
     }
@@ -88,15 +102,15 @@ router.put('/:skuId', async (req, res) => {
 });
 
 // Delete an existing product
-router.delete('/:skuId', (req, res) => {
-    const skuId = req.params.skuId;
-    const index = products.findIndex(product => product.skuId === skuId);
+router.delete('/:id', (req, res) => {
+    const id = req.params.id;
+    const index = products.findIndex(product => product.id === id);
 
     if (index !== -1) {
         products.splice(index, 1);
-        res.json({ message: 'Product deleted successfully' });
+        res.status(200).send({status:"Success", message: 'Product deleted successfully' });
     } else {
-        res.status(404).json({ error: 'Product not found' });
+        res.status(404).send({status:"Failed", message: 'Product not found' });
     }
 });
 
