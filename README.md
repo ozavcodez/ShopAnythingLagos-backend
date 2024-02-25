@@ -20,10 +20,10 @@ ShopAnythingLagos allows merchants to manage their product listings by themselve
 The server will start running at http://localhost:3005.
 
 # API Endpoints
-GET /products/{merchantId}: Display all products listed by a merchant.
-POST /products?{merchantId}: Create a product for a merchant.
-PUT /products/{id}: Edit an existing product.
-DELETE /products/{id}: Delete an existing product.
+* GET /products/{merchantId}: Display all products listed by a merchant.
+* POST /products?{merchantId}: Create a product for a merchant.
+* PUT /products/{id}: Edit an existing product.
+* DELETE /products/{id}: Delete an existing product.
 
 # Usage
 * Make HTTP requests to the provided API endpoints using tools like cURL, Postman, or your preferred HTTP client.
